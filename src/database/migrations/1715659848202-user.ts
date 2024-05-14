@@ -8,16 +8,42 @@ export class User1715659848202 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'uuid',
+            type: 'int',
             isPrimary: true,
-            default: 'uuid_generate_v4()',
             isGenerated: true,
-            generationStrategy: 'uuid',
+            generationStrategy: 'increment',
+          },
+          {
+            name: 'name',
+            type: 'varchar(255)',
+            isNullable: false,
+          },
+          {
+            name: 'username',
+            type: 'varchar(255)',
+            isNullable: true,
+          },
+          {
+            name: 'password',
+            type: 'varchar(255)',
+            isNullable: true,
+          },
+          {
+            name: 'createAt',
+            type: 'timestamp',
+            isNullable: true,
+          },
+          {
+            name: 'updateAt',
+            type: 'timestamp',
+            isNullable: true,
           },
         ],
       }),
     );
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {}
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropTable('gmail_accounts');
+  }
 }
