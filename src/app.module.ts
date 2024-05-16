@@ -6,8 +6,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './auth/auth.module';
 import typeorm from './config/database/typeorm';
-import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from './auth/guards/auth.guard';
+import { classes } from '@automapper/classes';
+import { AutomapperModule } from '@automapper/nestjs';
+// import { APP_GUARD } from '@nestjs/core';
+// import { AuthGuard } from './auth/guards/auth.guard';
 
 @Module({
   imports: [
@@ -21,16 +23,19 @@ import { AuthGuard } from './auth/guards/auth.guard';
       useFactory: async (configService: ConfigService) =>
         configService.get('typeorm'),
     }),
+    AutomapperModule.forRoot({
+      strategyInitializer: classes(),
+    }),
     UserModule,
     AuthModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: AuthGuard,
+    // },
   ],
 })
 export class AppModule {}
