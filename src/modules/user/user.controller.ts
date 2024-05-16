@@ -7,7 +7,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guards/jwt.auth.guard';
-import { HasRoles } from '../../auth/decorators/has.roles.decorator';
+import { HasRoles } from '../../common/decorators/has.roles.decorator';
 import { Role } from '../../enum/role.enum';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 
