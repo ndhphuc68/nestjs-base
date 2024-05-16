@@ -1,35 +1,21 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Role } from '../enum/role.enum';
-import { Roles } from './common/roles.decorator';
-import { AuthGuard } from '@nestjs/passport';
-import { JwtAuthGuard } from './guards/jwt.auth.guard';
+// import { Role } from '../enum/role.enum';
+// import { Roles } from './common/roles.decorator';
+// import { AuthGuard } from '@nestjs/passport';
+// import { JwtAuthGuard } from './guards/jwt.auth.guard';
 import { ApiTags } from '@nestjs/swagger';
 import { UserViewmodel } from '../modules/user/dto/user.viewmodel';
 import { RegisterDto } from './dto/register.dto';
 import { ApiResponseDto } from '../core/dto/api.response';
 import { LocalAuthGuard } from './guards/local.guard';
 import { LoginDto } from './dto/login.dto';
+import { Public } from './decorators/public.auth.decorator';
 
 @ApiTags('Api Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
-
-  // @Post()
-  // @HttpCode(HttpStatus.OK)
-  // @Post('login')
-  // signIn(@Body() signInDto: Record<string, any>) {
-  //   return this.authService.signIn(signInDto.username, signInDto.password);
-  // }
 
   @Post('register')
   async register(
@@ -43,6 +29,7 @@ export class AuthController {
     }
   }
 
+  @Public()
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Body() loginDto: LoginDto): Promise<ApiResponseDto<any>> {

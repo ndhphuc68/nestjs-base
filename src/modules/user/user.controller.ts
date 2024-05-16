@@ -7,6 +7,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guards/jwt.auth.guard';
+import { HasRoles } from '../../auth/decorators/has.roles.decorator';
+import { Role } from '../../enum/role.enum';
+import { RolesGuard } from '../../auth/guards/roles.guard';
 
 @ApiBearerAuth()
 @ApiTags('Api User')
@@ -14,7 +17,8 @@ import { JwtAuthGuard } from '../../auth/guards/jwt.auth.guard';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @HasRoles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   @ApiOperation({ summary: 'Create cat' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
